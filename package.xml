@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package>
     <name>Asperience_Printorderline</name>
-    <version>0.1.1</version>
+    <version>0.1.2</version>
     <stability>stable</stability>
     <license uri="http://www.opensource.org/licenses/osl-3.0.php">Open Software License (OSL 3.0)</license>
     <channel>community</channel>
@@ -11,8 +11,8 @@
     <notes>If you have ideas for improvements or find bugs, please send them to Ronan Capitaine or Jean-S&#xE9;bastien Hederer  at www.asperience.fr, with ASPerience PrintOrderLine  as part of the subject line.</notes>
     <authors><author><name>Jean-S&#xE9;bastien Hederer</name><user>auto-converted</user><email>hedererjs@asperience.fr</email></author><author><name>Ronan Capitaine</name><user>auto-converted</user><email>capitainer@asperience.fr</email></author></authors>
     <date>2010-01-20</date>
-    <time>16:20:32</time>
-    <contents><target name="mage"><dir name="app"><dir name="etc"><dir name="modules"><file name="Asperience_Printorderline.xml" hash="104bba73c11a049841b39e71bf30026e"/></dir></dir></dir></target><target name="magelocal"><dir name="Asperience"><dir name="Printorderline"><dir name="Block"><dir name="Sales"><dir name="Order"><file name="Grid.php" hash="13e23b20bff1aa9722c3173c0e64715c"/></dir></dir></dir><dir name="controllers"><file name="OrderController.php" hash="ee0e32011e1fd7c4ba368c399bcb8f19"/></dir><dir name="etc"><file name="config.xml" hash="8e5ee51aa98915982134c09038fc5473"/></dir><dir name="Helper"><file name="Data.php" hash="4973f68f8b95618a017857b21fa4d759"/></dir><dir name="Model"><dir name="Order"><dir name="Pdf"><file name="Order.php" hash="a98340711c36eccdc77c8aefd183f59d"/></dir></dir></dir></dir></dir></target></contents>
+    <time>16:26:32</time>
+    <contents><target name="mage"><dir name="app"><dir name="etc"><dir name="modules"><file name="Asperience_Printorderline.xml" hash="104bba73c11a049841b39e71bf30026e"/></dir></dir></dir></target><target name="magelocal"><dir name="Asperience"><dir name="Printorderline"><dir name="Block"><dir name="Sales"><dir name="Order"><file name="Grid.php" hash="13e23b20bff1aa9722c3173c0e64715c"/></dir></dir></dir><dir name="controllers"><file name="OrderController.php" hash="ee0e32011e1fd7c4ba368c399bcb8f19"/></dir><dir name="etc"><file name="config.xml" hash="8e5ee51aa98915982134c09038fc5473"/></dir><dir name="Helper"><file name="Data.php" hash="4973f68f8b95618a017857b21fa4d759"/></dir><dir name="Model"><dir name="Order"><dir name="Pdf"><file name="Order.php" hash="a98340711c36eccdc77c8aefd183f59d"/></dir></dir></dir></dir></dir></target><target name="magelocale"><dir name="fr_FR"><file name="Asperience_Printorderline.csv" hash="14b99d913dca710a46651058f54abb25"/></dir></target></contents>
     <compatible/>
     <dependencies/>
 </package>
