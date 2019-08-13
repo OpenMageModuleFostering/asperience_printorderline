@@ -10,24 +10,11 @@
 <config>
     <modules>
         <Asperience_Printorderline>
-            <version>0.1.1</version>
+            <version>0.1.6</version>
         </Asperience_Printorderline>
     </modules>
 
     <global>
-        <blocks>
-	    	<adminhtml>
-	    		<rewrite>
-	    			<sales_order_grid>Asperience_Printorderline_Block_Sales_Order_Grid</sales_order_grid>
-	    		</rewrite>
-	    	</adminhtml>
-    	</blocks>
-        <rewrite>
-            <asperience_printorderline_order>
-                <from><![CDATA[#/\w+/sales_order/pdforders/#]]></from>
-                <to>/printorderline/order/pdforders/</to>
-            </asperience_printorderline_order>
-        </rewrite>
         <models>
             <Asperience_Printorderline>
                 <class>Asperience_Printorderline_Model</class>
@@ -65,5 +52,16 @@
                 </Asperience_Printorderline>
             </modules>
         </translate>
+        
+        <events>
+        	<adminhtml_block_html_before>
+                <observers>
+                    <asperience_printorderline>
+                        <class>Asperience_Printorderline_Model_Observer</class>
+                        <method>addOptionToSelect</method>
+                    </asperience_printorderline>
+                </observers>
+            </adminhtml_block_html_before>
+		</events>
 	</adminhtml> 
 </config>

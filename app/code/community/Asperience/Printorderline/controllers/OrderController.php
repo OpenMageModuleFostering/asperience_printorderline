@@ -8,8 +8,7 @@
 
 require_once 'Mage/Adminhtml/controllers/Sales/OrderController.php';
 class Asperience_Printorderline_OrderController extends Mage_Adminhtml_Sales_OrderController
-{
-    
+{    
 	public function pdfordersAction(){
         $orderIds = $this->getRequest()->getPost('order_ids');
         $flag = false;
@@ -30,10 +29,7 @@ class Asperience_Printorderline_OrderController extends Mage_Adminhtml_Sales_Ord
                 $this->_getSession()->addError($this->__('There are no printable documents related to selected orders'));
                 $this->_redirect('*/*/');
             }
-
         }
         $this->_redirect('*/*/');
-
-    }
-    
+    }    
 }

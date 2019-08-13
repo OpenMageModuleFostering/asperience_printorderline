@@ -13,7 +13,7 @@ class Asperience_Printorderline_Model_Order_Pdf_Order extends Mage_Sales_Model_O
 	
     public function getPdf($orders = array())
     {
-        $this->_beforeGetPdf();
+    	$this->_beforeGetPdf();
         $this->_initRenderer('order');
 
         $pdf = new Zend_Pdf();
@@ -35,10 +35,10 @@ class Asperience_Printorderline_Model_Order_Pdf_Order extends Mage_Sales_Model_O
         $this->y -=10;
         $page->setFillColor(new Zend_Pdf_Color_GrayScale(0));
         $page->drawText(Mage::helper('printorderline')->__('Order'), 50, $this->y, 'UTF-8');
-        $page->drawText(Mage::helper('printorderline')->__('Bill to Name'), 160, $this->y, 'UTF-8');
-        $page->drawText(Mage::helper('printorderline')->__('Ship to Name'), 330, $this->y, 'UTF-8');
-        $page->drawText(Mage::helper('printorderline')->__('Payment/Shipping Method'), 500, $this->y, 'UTF-8');
-        $page->drawText(Mage::helper('printorderline')->__('Total'), 680, $this->y, 'UTF-8');        
+        $page->drawText(Mage::helper('printorderline')->__('Bill to informations'), 160, $this->y, 'UTF-8');
+        $page->drawText(Mage::helper('printorderline')->__('Ship to informations'), 330, $this->y, 'UTF-8');
+        $page->drawText(Mage::helper('printorderline')->__('Shipping and billing methods'), 500, $this->y, 'UTF-8');
+        $page->drawText(Mage::helper('printorderline')->__('Totals'), 680, $this->y, 'UTF-8');
         
         
         foreach ($orders as $order) {
@@ -48,34 +48,45 @@ class Asperience_Printorderline_Model_Order_Pdf_Order extends Mage_Sales_Model_O
 	        $lgMaxAdd = 50;
 	        $lgMaxMet = 50;
 	        
-	        //Méthode de Paiement
-	        $paymentInfo = Mage::helper('payment')->getInfoBlock($order->getPayment())
-	            ->setIsSecureMode(true)
-	            ->toPdf();
+	        //Payment method
+	        try {
+		        $paymentInfo = Mage::helper('payment')->getInfoBlock($order->getPayment())
+		            ->setIsSecureMode(true)
+		            ->toPdf();
+	        } catch (Exception $e) {
+	        	$paymentInfo = $order->getPayment()->getMethod();
+	        }
 	        $payment = str_replace('{{pdf_row_separator}}', ' ', $paymentInfo);
 	        $payment =  wordwrap($payment, $lgMaxMet, "|\n", 1);
 			$payment = explode('|', $payment);
 			
-			//Méthode de livraison
+			//Shipping description
 	        $ShippingDesc = $order->getShippingDescription();
 			$ShippingDesc =  wordwrap($ShippingDesc, $lgMaxMet, "|\n", 1);
 			$ShippingDesc = explode('|', $ShippingDesc);
 			
+			//Billing informations
+			$billingAddress = $order->getBillingAddress();
+			if($billingAddress) {
+		        $BillingCpn = $billingAddress->getCompany();
+				$BillingCpn =  wordwrap($BillingCpn, $lgMaxAdd, "|\n", 1);
+				$BillingCpn = explode('|', $BillingCpn);				
+			} else {
+		        $BillingCpn = array();
+			}
 			
-			//info facturation
-	        $BillingCpn = $order->getBillingAddress()->getCompany();
-			$BillingCpn =  wordwrap($BillingCpn, $lgMaxAdd, "|\n", 1);
-			$BillingCpn = explode('|', $BillingCpn);
-			
-			//info livraison
-			$ShippingCpn = $order->getShippingAddress()->getCompany();
-			$ShippingCpn =  wordwrap($ShippingCpn, $lgMaxAdd, "|\n", 1);
-			$ShippingCpn = explode('|', $ShippingCpn);
-
+			//Shipping informations
+			$shippingAddress = $order->getShippingAddress();
+			if($shippingAddress) {
+				$ShippingCpn = $shippingAddress->getCompany();
+				$ShippingCpn =  wordwrap($ShippingCpn, $lgMaxAdd, "|\n", 1);
+				$ShippingCpn = explode('|', $ShippingCpn);
+			} else {
+		        $ShippingCpn = array();
+			}
 			
 			$val = max(count($BillingCpn), count($ShippingCpn), (count($payment) + count($ShippingDesc)));
-			
-			
+						
 			$page->setFillColor(new Zend_Pdf_Color_GrayScale(1));
 	        $page->setLineColor(new Zend_Pdf_Color_GrayScale(0.5));
 	        $page->setLineWidth(0.5);
@@ -86,8 +97,16 @@ class Asperience_Printorderline_Model_Order_Pdf_Order extends Mage_Sales_Model_O
 			$this->_setFontBold($page);
 	        $page->drawText(Mage::helper('printorderline')->__('N° ').$order->getRealOrderId(), 50, $this->y, 'UTF-8');
 	        $this->_setFontRegular($page);
-	        $page->drawText($order->getBillingAddress()->getName(), 160, $this->y, 'UTF-8');
-	        $page->drawText($order->getShippingAddress()->getName(), 330, $this->y, 'UTF-8');
+	        if($billingAddress)
+	        	$billingAddressName = $billingAddress->getName();
+	        else
+	        	$billingAddressName = '';
+	        $page->drawText($billingAddressName, 160, $this->y, 'UTF-8');
+	        if($shippingAddress)
+	        	$shippingAddressName = $shippingAddress->getName();
+	        else
+	        	$shippingAddressName = '';
+	        $page->drawText($shippingAddressName, 330, $this->y, 'UTF-8');
 	        $page->drawText(Mage::helper('printorderline')->__('Tax: ').$order->formatPriceTxt($order->getTaxAmount()), 680, $this->y, 'UTF-8');
 	        $page->drawText(Mage::helper('printorderline')->__('Ship: ').$order->formatPriceTxt($order->getShippingAmount()), 740, $this->y, 'UTF-8');
 	        
@@ -149,10 +168,10 @@ class Asperience_Printorderline_Model_Order_Pdf_Order extends Mage_Sales_Model_O
 			        $this->y -=10;
 			        $page->setFillColor(new Zend_Pdf_Color_GrayScale(0));
 			        $page->drawText(Mage::helper('printorderline')->__('Order'), 50, $this->y, 'UTF-8');
-			        $page->drawText(Mage::helper('printorderline')->__('Bill to Name'), 160, $this->y, 'UTF-8');
-			        $page->drawText(Mage::helper('printorderline')->__('Ship to Name'), 330, $this->y, 'UTF-8');
-			        $page->drawText(Mage::helper('printorderline')->__('Méthode de Paiement et de Livraison'), 500, $this->y, 'UTF-8');
-			        $page->drawText(Mage::helper('printorderline')->__('Total'), 680, $this->y, 'UTF-8');     
+			        $page->drawText(Mage::helper('printorderline')->__('Bill to informations'), 160, $this->y, 'UTF-8');
+			        $page->drawText(Mage::helper('printorderline')->__('Ship to informations'), 330, $this->y, 'UTF-8');
+			        $page->drawText(Mage::helper('printorderline')->__('Shipping and billing methods'), 500, $this->y, 'UTF-8');
+			        $page->drawText(Mage::helper('printorderline')->__('Totals'), 680, $this->y, 'UTF-8');
                 }
         }
 
