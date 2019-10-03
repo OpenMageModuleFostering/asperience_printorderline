@@ -1,17 +1,5 @@
 {
-    "name": "OpenMageModuleFostering/Asperience_Printorderline",
-    "type": "magento-module",
-    "license": "Open-Software-License-(OSL-3.0)",
-    "homepage": "",
-    "description": "Module allowing to print order lines in the back office.
-",
-    "authors": [
-    {
-        "name": "Jean-S\u00e9bastien Hederer",
-        "email": "hedererjs@asperience.fr"
-    }
-],
-    "suggest": {
-        "magento-hackathon/magento-composer-installer": "*"
-    }
+    "keywords": [
+        "openmage-module"
+    ]
 }
